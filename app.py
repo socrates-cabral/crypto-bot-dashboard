@@ -68,8 +68,12 @@ hr {{ border-color:{BORDER} !important; margin:14px 0 !important; }}
 
 @st.cache_resource
 def _sb():
-    url = os.getenv("SUPABASE_URL") or st.secrets.get("SUPABASE_URL","")
-    key = os.getenv("SUPABASE_KEY") or st.secrets.get("SUPABASE_KEY","")
+    try:
+        url = os.getenv("SUPABASE_URL") or st.secrets.get("SUPABASE_URL", "")
+        key = os.getenv("SUPABASE_KEY") or st.secrets.get("SUPABASE_KEY", "")
+    except Exception:
+        url = os.getenv("SUPABASE_URL", "")
+        key = os.getenv("SUPABASE_KEY", "")
     if not url or not key: return None
     try:
         from supabase import create_client
